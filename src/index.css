@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-navy-50: #f0f5fb;
+  --color-navy-100: #dce7f5;
+  --color-navy-200: #b9cfe9;
+  --color-navy-300: #8aadd7;
+  --color-navy-400: #5585bc;
+  --color-navy-500: #31659e;
+  --color-navy-600: #2b5280;
+  --color-navy-700: #1e4066;
+  --color-navy-800: #16304f;
+  --color-navy-900: #0a1830;
+  --color-navy-950: #060d1a;
+
+  --color-clinical-50: #effaf9;
+  --color-clinical-100: #d6f2f0;
+  --color-clinical-200: #aee5e1;
+  --color-clinical-300: #78d1cd;
+  --color-clinical-400: #3fb6b2;
+  --color-clinical-500: #0fa79c;
+  --color-clinical-600: #0d8a83;
+  --color-clinical-700: #0d7a72;
+  --color-clinical-800: #0e5f5a;
+  --color-clinical-900: #0e4e4b;
+
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.4s ease both;
+  --animate-dash: dash-flow 3.2s linear infinite;
+  --animate-pulse-soft: pulse-soft 2.4s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -28; }
+}
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-navy-50);
+}
+
+.dark body {
+  background-color: #070f1d;
+}
+
+::selection {
+  background: var(--color-clinical-500);
+  color: white;
+}
+
+/* ---------- scrollbars ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 130, 170, 0.45) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(100, 130, 170, 0.4);
+  border-radius: 99px;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- form focus ---------- */
+input, textarea, select {
+  outline: none;
+}
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 2px solid var(--color-clinical-500);
+  outline-offset: 1px;
+}
+
+/* ---------- shared clinical inputs ---------- */
+@utility clinical-input {
+  @apply w-full rounded-lg border border-navy-200 bg-white px-3 py-2 text-sm text-navy-900 placeholder:text-navy-300 transition-colors focus:border-clinical-500 focus:ring-2 focus:ring-clinical-500/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-navy-50 dark:placeholder:text-navy-500;
+}
+@utility clinical-textarea {
+  @apply w-full min-h-[110px] resize-y rounded-lg border border-navy-200 bg-white px-3 py-2 text-sm leading-relaxed text-navy-900 placeholder:text-navy-300 transition-colors focus:border-clinical-500 focus:ring-2 focus:ring-clinical-500/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-navy-50 dark:placeholder:text-navy-500;
+}
+@utility clinical-label {
+  @apply mb-1.5 block text-[11px] font-bold tracking-[0.09em] text-navy-500 uppercase dark:text-navy-300;
+}
+
+@utility card-surface {
+  @apply rounded-2xl border border-navy-100 bg-white shadow-[0_1px_3px_rgba(10,24,48,0.05)] dark:border-white/[0.07] dark:bg-navy-900/60 dark:shadow-none;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- ECG line animation ---------- */
+.ecg-line {
+  stroke-dasharray: 14 14;
+  animation: dash-flow 1.6s linear infinite;
+}
+
+/* ---------- report preview (word-like) ---------- */
+.report-paper {
+  font-family: var(--font-serif);
+  color: #1a2433;
+  background: white;
+  line-height: 1.75;
+}
+.dark .report-paper {
+  background: #101c31;
+  color: #dbe6f4;
+}
+.report-paper h1, .report-paper h2, .report-paper h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+/* stagger helper for landing */
+.stagger > * { opacity: 0; animation: fade-up 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+.stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger > *:nth-child(2) { animation-delay: 0.13s; }
+.stagger > *:nth-child(3) { animation-delay: 0.21s; }
+.stagger > *:nth-child(4) { animation-delay: 0.29s; }
+.stagger > *:nth-child(5) { animation-delay: 0.37s; }
+.stagger > *:nth-child(6) { animation-delay: 0.45s; }
